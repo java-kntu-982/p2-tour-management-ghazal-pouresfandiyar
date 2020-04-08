@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 /**
  * @author Ghazal pouresfandiyar
- * @version 5.0
+ * @version 7.0
  * @since 1.0
  */
 public class Main {
@@ -39,7 +39,7 @@ public class Main {
                                 kindsOfTours.add(scanKindsOfTour(regionList));
                                 break;
                             case 4://Add new tour
-                                tourList.add(scanTour(regionList));
+                                tourList.add(scanTour(regionList,leaderList));
                                 break;
                             case 5://Remove tour
                                 System.out.println("Enter name of the tour and it's identifier:(it should be a space between them)");
@@ -70,7 +70,7 @@ public class Main {
                                 identifier = scan.nextInt();
                                 index = mainTourSearch(tourName, identifier, tourList);
                                 if (index >= 0) {
-                                    tourList.set(index, scanTour(regionList));
+                                    tourList.set(index, scanTour(regionList,leaderList));
                                 } else {
                                     System.out.println("Not found!");
                                 }
@@ -84,7 +84,7 @@ public class Main {
                                             System.out.println("Enter the firs name and last name:");
                                             String firstName = scan.next();
                                             String lastName = scan.next();
-                                            searchTourByLeader(firstName, lastName, tourList, leaderList);
+                                            searchTourByLeader(firstName, lastName, tourList,leaderList);
                                             break;
                                         case 2://search based on date
                                             dateMenu();
@@ -99,7 +99,7 @@ public class Main {
                                         case 4://search based on subRegion
                                             System.out.println("Enter the name of subRegion:");
                                             String subRegionName=scan.next();
-                                            searchTourBySubRegion(subRegionName,kindsOfTours);
+                                            searchTourBySubRegion(subRegionName,tourList);
                                             break;
                                         case 5://search by region
                                             System.out.println("Enter the name of region:");
@@ -534,22 +534,11 @@ public class Main {
         }
         return subRegions;
     }
-    public static Tour scanTour(List<Region> regionList){
+    public static Tour scanTour(List<Region> regionList,List <Leader> leaderList){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter name of the tour and it's identifier(it should be a space between the name and the identifier)");
         String name=scan.next();
         int identifier=scan.nextInt();
-        System.out.println("Enter the date of start:(Enter day , month and year in order)");
-        int day=scan.nextInt();
-        int month=scan.nextInt();
-        int year=scan.nextInt();
-        Date dateOfStart= new Date(year,month,day);
-        System.out.println("Enter the duration of the tour:");
-        int duration=scan.nextInt();
-        Date dateOfEnd=null;
-        for(int i=0;i<duration;i++){
-            dateOfEnd=dateOfStart.nextDay(dateOfStart);
-        }
         System.out.println("Is it foreign tour?(answer in boolean)");
         boolean isForeign=scan.nextBoolean();
         System.out.println("Enter the name of region:");
@@ -566,6 +555,60 @@ public class Main {
             System.out.println("The region does't exist.Don't worry create it now ^_^!");
             region=new Region(regionName,scanSubRegion());
             regionList.add(region);
+        }
+        System.out.println("Enter the date of start:(Enter day , month and year in order)");
+        int day=scan.nextInt();
+        int month=scan.nextInt();
+        int year=scan.nextInt();
+        Date dateOfStart= new Date(year,month,day);
+        System.out.println("Enter the duration of the tour:");
+        int duration=scan.nextInt();
+        Date dateOfEnd=null;
+        for(int i=0;i<duration;i++){
+            dateOfEnd=dateOfStart.nextDay();
+        }
+        System.out.println("Enter the first name and last name of the leader:");
+        int index = mainLeaderSearch(scan.next(),scan.next(),leaderList);
+        if(index>=0) {
+            boolean canLead = false;
+            for (int i = 0; i < leaderList.get(index).getRegionOfLeader().size(); i++) {
+                if (leaderList.get(index).getRegionOfLeader().get(i).equals(regionName)) {
+                    canLead = true;
+                }
+            }
+            if (canLead == true) {
+                Date date = dateOfStart;
+                boolean isFull = false;
+                for (int i = 0; i < duration; i++) {
+                    for (int j = 0; j < leaderList.get(index).getFullDay().size(); j++) {
+                        if (compareDate((leaderList.get(index).getFullDay().get(j)),date)==0){
+                            isFull = true;
+                        }
+                    }
+                    date = date.nextDay();
+                }
+                if (isFull == false) {
+                    date = dateOfStart;
+                    for (int i = 0; i < duration; i++) {
+                        leaderList.get(index).getFullDay().add(date);
+                        date = date.nextDay();
+                    }
+                    for(int i=0;i<leaderList.get(index).getFullDay().size();i++){
+                        System.out.println(leaderList.get(index).getFullDay().get(i));
+                        System.out.println();
+                    }
+                } else {
+                    System.out.println("Leader is full in this date.Set another date for the tour or change the leader!");
+                    return null;
+                }
+            } else {
+                System.out.println("The leader can't lead this tour in this region! He/She doesn't know the region!");
+                return null;
+            }
+        }
+        else if(index<0){
+            System.out.println("The leader not found!");
+            return null;
         }
         System.out.println("Enter the price of tour:");
         long price=scan.nextLong();
@@ -602,7 +645,7 @@ public class Main {
         for(Integer d=1;d<=duration;d++) {
             subRegion.put(d,scan.next());
         }
-        Tour tour=new Tour(name,identifier,dateOfStart,dateOfEnd,isForeign,duration,region,price,minCapacity,maxCapacity,begin,destination,howToTravel,subRegion);
+        Tour tour=new Tour(name,identifier,dateOfStart,dateOfEnd,isForeign,duration,region,price,minCapacity,maxCapacity,begin,destination,howToTravel,subRegion,leaderList.get(index));
         return tour;
     }
     public static Tour scanKindsOfTour(List<Region> regionList) {
@@ -643,7 +686,7 @@ public class Main {
         boolean bool=false;
         for(int i = 0; i < kindsOfTours.size(); i++) {
             System.out.println((i+1)+"- "+kindsOfTours.get(i).getName());
-            System.out.println("    Durationd:"+kindsOfTours.get(i).getDuration());
+            System.out.println("    Duration:"+kindsOfTours.get(i).getDuration());
             System.out.println("    Price:"+kindsOfTours.get(i).getPrice());
             System.out.println("    Capacity:"+kindsOfTours.get(i).getMinCapacity()+"-"+kindsOfTours.get(i).getMaxCapacity());
             bool=true;
@@ -657,15 +700,16 @@ public class Main {
         for(int i = 0; i < tourList.size(); i++) {
             System.out.print((i+1)+"- "+tourList.get(i).getName()+" "+tourList.get(i).getIdentifier() );
             System.out.print("  It will start in date ");
-            showDate(tourList.get(i).getDateOFStart());
+            System.out.println(tourList.get(i).getDateOFStart().toString());
             System.out.print("and it will end in date ");
-            showDate(tourList.get(i).getDatOfEnd());
+            System.out.println(tourList.get(i).getDatOfEnd().toString());
             System.out.println();
             System.out.println("    The price is: "+tourList.get(i).getPrice());
+            System.out.println("    Leader: "+tourList.get(i).getTourLeader().getFirstName()+" "+tourList.get(i).getTourLeader().getLastName());
             System.out.println("    It's " + tourList.get(i).getHowToTravel()+".");
             System.out.println("    It's capacity is between "+tourList.get(i).getMinCapacity()+" and "+tourList.get(i).getMaxCapacity()+".");
             System.out.println("        The schedule is like this:");
-            tourList.get(i).getOrderedSubRegions().forEach((key, value) -> System.out.println("      Day: "+value + " =======> " + key));
+            tourList.get(i).getOrderedSubRegions().forEach((key, value) -> System.out.println("         Day "+key +":"+ " =======> " + value));
 
             bool=true;
         }
@@ -692,9 +736,6 @@ public class Main {
         if(bool==false){
             System.out.println("There isn't any region!");
         }
-    }
-    public static void showDate(Date date){
-        System.out.print(date.getDay()+"/"+date.getMonth()+"/"+date.getYear()+" ");
     }
     /**
      * There are all search methods here
@@ -763,13 +804,11 @@ public class Main {
         int index = mainLeaderSearch(firstName, lastName, leaderList);
         if (index >= 0) {
             for (int i = 0; i < tourList.size(); i++) {
-                for (int j = 0; j < (leaderList.get(index).getRegionOfLeader()).size(); j++) {
-                    if ((leaderList.get(index).getRegionOfLeader().get(j)).equals(tourList.get(i).getRegion())) {
-                        System.out.println(tourList.get(i).getName()+tourList.get(i).getIdentifier());
+                    if ((tourList.get(i).getTourLeader().getFirstName()).equals(firstName) &&(tourList.get(i).getTourLeader().getLastName()).equals(lastName)) {
+                        System.out.println("* "+tourList.get(i).getName() + " " + tourList.get(i).getIdentifier());
                     }
                 }
             }
-        }
         else {
             System.out.println("Leader does not found!");
         }
@@ -968,7 +1007,7 @@ public class Main {
             }
         }
     }
-    //This method will use in edit and remove methods.It searches based on the full name of a leader and return the index of leader in list
+    //mainSearches
     public static int mainLeaderSearch(String firstName,String lastName,List<Leader> leaderList){
         for(int i = 0; i < leaderList.size(); i++) {
             if(firstName.equals(leaderList.get(i).getFirstName()) && lastName.equals(leaderList.get(i).getLastName())){
@@ -1003,19 +1042,19 @@ public class Main {
     }
     /**
      * @return 1 if date2 is sooner than date1
-     * @return 0 if the dates are th same
      * @return -1 if date1 is sooner than date2
+     * @return 0 if they are the same
      */
     public static int compareDate(Date date1,Date date2){
-        if(date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()==date2.getDay()){
-            return 0;
-        }
-        else if(date1.getYear()>date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()>date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()>date2.getDay())){
+        if(date1.getYear()>date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()>date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()>date2.getDay())){
             return 1;
         }
         else if(date1.getYear()<date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()<date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()<date2.getDay())){
             return -1;
         }
-        return -100;
+        else if(date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()==date2.getDay() ) {
+            return 0;
+        }
+       return -100;
     }
 }
