@@ -22,6 +22,67 @@ public class Tour {
     private HowToTravel howToTravel;
     Map< Integer,String> orderedSubRegions= new HashMap<>();//String is the name of the place and Integer is number of day
     private  Leader tourLeader;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIdentifier(int identifier) {
+        this.identifier = identifier;
+    }
+
+    public void setDateOFStart(Date dateOFStart) {
+        this.dateOFStart = dateOFStart;
+    }
+
+    public void setForeign(boolean foreign) {
+        isForeign = foreign;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public void setDatOfEnd(Date datOfEnd) {
+        this.datOfEnd = datOfEnd;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public void setMinCapacity(int minCapacity) {
+        this.minCapacity = minCapacity;
+    }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    public void setBegin(String begin) {
+        this.begin = begin;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public void setHowToTravel(HowToTravel howToTravel) {
+        this.howToTravel = howToTravel;
+    }
+
+    public void setOrderedSubRegions(Map<Integer, String> orderedSubRegions) {
+        this.orderedSubRegions = orderedSubRegions;
+    }
+
+    public void setTourLeader(Leader tourLeader) {
+        this.tourLeader = tourLeader;
+    }
+
     public String getName() {
         return name;
     }

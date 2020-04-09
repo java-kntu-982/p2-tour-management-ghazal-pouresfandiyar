@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 /**
  * @author Ghazal pouresfandiyar
- * @version 7.0
+ * @version 9.0
  * @since 1.0
  */
 public class Main {
@@ -17,6 +17,7 @@ public class Main {
         List <Tour> tourList  = new ArrayList<>();
         List<Tour> kindsOfTours = new ArrayList<>();
         List <Region> regionList = new ArrayList<>();
+        List<String> subRegionList=new ArrayList<>();
         System.out.println("Enter the current year:");
         int currentYear=scan.nextInt();
         boolean exit0 = false ,exit1 = false ,exit2 = false ,exit3 = false,exit4 = false ,exit5 = false ,exit6 = false ,exit7 = false;
@@ -53,14 +54,59 @@ public class Main {
                                 }
                                 break;
                             case 6://Edit kinds of tours
-                                System.out.println("Enter name of the previous kinds of tour:");
-                                String name = scan.next();
-                                System.out.println("Enter name of the new kinds of tour:");
-                                String newName = scan.next();
-                                index = mainKindsOfToursSearch(name, kindsOfTours);
+                                System.out.println("Enter tour's name:");
+                                tourName = scan.next();
+                                index = mainKindsOfToursSearch(tourName, tourList);
                                 if (index >= 0) {
-                                    kindsOfTours.set(index, scanKindsOfTour(regionList));
-                                } else {
+                                    editKindOfTour();
+                                    int choice = scan.nextInt();
+                                    switch (choice) {
+                                        case 1:
+                                            System.out.println("Enter new name:");
+                                            String name = scan.next();
+                                            kindsOfTours.get(index).setName(name);
+                                            break;
+                                        case 2:
+                                            System.out.println("Is it foreign tour?");
+                                            kindsOfTours.get(index).setForeign(scan.nextBoolean());
+                                            break;
+                                        case 3:
+                                            System.out.println("Enter the duration:");
+                                            int duration=scan.nextInt();
+                                            kindsOfTours.get(index).setDuration(duration);
+                                            break;
+                                        case 4:
+                                            System.out.println("Enter the name of region:");
+                                            String regionName=scan.next();
+                                            Boolean bool=false;
+                                            Region region = null;
+                                            for(int i=0;i<regionList.size();i++){
+                                                if (regionName.equals(regionList.get(i).getName())){
+                                                    region=regionList.get(i);
+                                                    bool=true;
+                                                }
+                                            }
+                                            if(bool==false){
+                                                System.out.println("The region does't exist.Don't worry create it now ^_^!");
+                                                region=new Region(regionName,scanSubRegion());
+                                                regionList.add(region);
+                                            }
+                                            kindsOfTours.get(index).setRegion(region);
+                                        case 5:
+                                            System.out.println("Enter price:");
+                                            kindsOfTours.get(index).setPrice(scan.nextLong());
+                                            break;
+                                        case 6:
+                                            System.out.println("Enter the min and max of capacity in order:");
+                                            kindsOfTours.get(index).setMinCapacity(scan.nextInt());
+                                            kindsOfTours.get(index).setMaxCapacity(scan.nextInt());
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                }
+                                else {
                                     System.out.println("Not found!");
                                 }
                                 break;
@@ -70,8 +116,111 @@ public class Main {
                                 identifier = scan.nextInt();
                                 index = mainTourSearch(tourName, identifier, tourList);
                                 if (index >= 0) {
-                                    tourList.set(index, scanTour(regionList,leaderList));
-                                } else {
+                                    editTour();
+                                    int choice = scan.nextInt();
+                                    switch (choice) {
+                                        case 1:
+                                            System.out.println("Enter new name:");
+                                            String name = scan.next();
+                                            tourList.get(index).setName(name);
+                                            break;
+                                        case 2:
+                                            System.out.println("Enter Identifier:");
+                                            identifier = scan.nextInt();
+                                            tourList.get(index).setIdentifier(identifier);
+                                            break;
+                                        case 3:
+                                            System.out.println("Enter date of start:(dat,month,year)");
+                                            int day = scan.nextInt();
+                                            int month = scan.nextInt();
+                                            int year = scan.nextInt();
+                                            Date newDate = new Date(year, month, year);
+                                            tourList.get(index).setDateOFStart(newDate);
+                                            break;
+                                        case 4:
+                                            System.out.println("Is it foreign tour?");
+                                            tourList.get(index).setForeign(scan.nextBoolean());
+                                        case 5:
+                                            System.out.println("Enter the duration:");
+                                            int duration=scan.nextInt();
+                                            tourList.get(index).setDuration(duration);
+                                            Date dateOfEnd=null;
+                                            for(int i=0;i<duration;i++){
+                                                dateOfEnd=tourList.get(index).getDateOFStart().nextDay();
+                                            }
+                                            tourList.get(index).setDatOfEnd(dateOfEnd);
+                                            break;
+                                        case 6:
+                                            System.out.println("Enter the name of region:");
+                                            String regionName=scan.next();
+                                            Boolean bool=false;
+                                            Region region = null;
+                                            for(int i=0;i<regionList.size();i++){
+                                                if (regionName.equals(regionList.get(i).getName())){
+                                                    region=regionList.get(i);
+                                                    bool=true;
+                                                }
+                                            }
+                                            if(bool==false){
+                                                System.out.println("The region does't exist.Don't worry create it now ^_^!");
+                                                region=new Region(regionName,scanSubRegion());
+                                                regionList.add(region);
+                                            }
+                                            tourList.get(index).setRegion(region);
+
+                                        case 7:
+                                            System.out.println("Enter price:");
+                                            tourList.get(index).setPrice(scan.nextLong());
+                                            break;
+                                        case 8:
+                                            System.out.println("Enter the min and max of capacity in order:");
+                                            tourList.get(index).setMinCapacity(scan.nextInt());
+                                            tourList.get(index).setMaxCapacity(scan.nextInt());
+                                            break;
+                                        case 9:
+                                            System.out.println("Enter the beginning and the destination:(if it isn't foreign tour just enter beginning)");
+                                            String begin,destination;
+                                            if(tourList.get(index).isForeign()==false){
+                                                begin=scan.next();
+                                                destination=begin;
+                                            }
+                                            else {
+                                                begin = scan.next();
+                                                destination = scan.next();
+                                            }
+                                            tourList.get(index).setBegin(begin);
+                                            tourList.get(index).setDestination(destination);
+                                            break;
+                                        case 10:
+                                            System.out.println("How thw passengers will travel?");
+                                            System.out.println("1- By air");
+                                            System.out.println("2- On ground");
+                                            int choicee=scan.nextInt();
+                                            HowToTravel howToTravel=HowToTravel.NONE;
+                                            switch(choicee){
+                                                case 1:
+                                                    tourList.get(index).setHowToTravel(HowToTravel.BY_AIR);
+                                                    break;
+                                                case 2:
+                                                    tourList.get(index).setHowToTravel(HowToTravel.ON_GROUND);
+                                                    break;
+                                                default:
+                                                    System.out.println("Invalid input!");
+                                            }
+                                            break;
+                                        case 11:
+                                            Map<Integer, String> subRegion=new HashMap<>();
+                                            System.out.println("Now enter the subRegions in order to set the schedule of tours:");
+                                            for(Integer d=1;d<=tourList.get(index).getDuration();d++) {
+                                                subRegion.put(d,scan.next());
+                                            }
+                                            tourList.get(index).setOrderedSubRegions(subRegion);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                            else {
                                     System.out.println("Not found!");
                                 }
                                 break;
@@ -194,7 +343,77 @@ public class Main {
                                 lastName = scan.next();
                                 index = mainLeaderSearch(firstName, lastName, leaderList);
                                 if (index >= 0) {
-                                    leaderList.set(index, scanLeader(currentYear));
+                                    editLeader();
+                                    int choice=scan.nextInt();
+                                        switch (choice) {
+                                            case 1:
+                                                System.out.println("Enter new first name:");
+                                                firstName = scan.next();
+                                                leaderList.get(index).setFirstName(firstName);
+                                                break;
+                                            case 2:
+                                                System.out.println("Enter new last name:");
+                                                lastName = scan.next();
+                                                leaderList.get(index).setLastName(lastName);
+                                                break;
+                                            case 3:
+                                                System.out.println("Enter Credit ID:");
+                                                long creditId = scan.nextLong();
+                                                leaderList.get(index).setCreditId(creditId);
+                                                break;
+                                            case 4:
+                                                System.out.println("Enter date of birth:(dat,month,year)");
+                                                int day = scan.nextInt();
+                                                int month = scan.nextInt();
+                                                int year = scan.nextInt();
+                                                Date newDate = new Date(year, month, year);
+                                                leaderList.get(index).setDateOfBirth(newDate);
+                                                leaderList.get(index).setAge(currentYear - year);
+                                                break;
+                                            case 5:
+                                                System.out.println("Enter date of employment:(dat,month,year)");
+                                                day = scan.nextInt();
+                                                month = scan.nextInt();
+                                                year = scan.nextInt();
+                                                newDate = new Date(year, month, year);
+                                                leaderList.get(index).setDateOfEmployment(newDate);
+                                                break;
+                                            case 6:
+                                                System.out.println("Is she/he married?");
+                                                leaderList.get(index).setMarried(scan.nextBoolean());
+                                                break;
+                                            case 7:
+                                                System.out.println("How many regions does he/she know?");
+                                                int num = scan.nextInt();
+                                                System.out.println("Enter new name of regions:");
+                                                List<String> newRegionOfLeader = new ArrayList<>();
+                                                for (int i = 0; i < num; i++) {
+                                                    newRegionOfLeader.add(scan.next());
+                                                }
+                                                leaderList.get(index).setRegionOfLeader(newRegionOfLeader);
+                                                break;
+                                            case 8:
+                                                System.out.println("Enter previous date of shift:");
+                                                day = scan.nextInt();
+                                                month = scan.nextInt();
+                                                year = scan.nextInt();
+                                                Date previoysDate = new Date(year, month, day);
+                                                int index1 = mainDateSearch(previoysDate, leaderList.get(index).getFullDay());
+                                                if (index1 >= 0) {
+                                                    System.out.println("Enter new date of shift:");
+                                                    int newDay = scan.nextInt();
+                                                    int newMonth = scan.nextInt();
+                                                    int newYear = scan.nextInt();
+                                                    newDate = new Date(newYear, newMonth, newDay);
+                                                    leaderList.get(index).getFullDay().set(index1, newDate);
+                                                } else {
+                                                    System.out.println("The date does not found!");
+                                                }
+                                                break;
+                                            default:
+                                                System.out.println("Invalid Input!");
+                                                break;
+                                        }
                                 } else {
                                     System.out.println("Not found!");
                                 }
@@ -241,7 +460,6 @@ public class Main {
                                 break;
                         }
                     }
-
                     break;
                 case 3://use map
                     while (exit2 == false) {
@@ -336,20 +554,36 @@ public class Main {
                                 break;
                             case 2://add new region
                                 System.out.println("Enter region's name:");
-                                Region region = new Region(scan.next(), scanSubRegion());
+                                String regionName=scan.next();
+                                subRegionList=scanSubRegion();
+                                Region region = new Region(regionName, subRegionList);
                                 regionList.add(region);
                                 break;
                             case 3://edit region
                                 System.out.println("Enter name of region:");
-                                String regionName= scan.next();
+                                regionName= scan.next();
                                 int index = mainRegionSearch(regionName,regionList);
-                                System.out.println("Enter region's new name:");
-                                region = new Region(scan.next(), scanSubRegion());
                                 if (index >= 0) {
-                                    regionList.set(index, region);
-                                } else {
-                                    System.out.println("Not found!");
+                                    editRegion();
+                                    int choice = scan.nextInt();
+                                    switch (choice) {
+                                        case 1:
+                                            System.out.println("Enter region's new name:");
+                                            region = new Region(scan.next(), subRegionList);
+                                            regionList.set(index, region);
+                                            break;
+                                        case 2:
+                                            System.out.println("Enter new subRegions");
+                                            region =new Region(regionName,scanSubRegion());
+                                            regionList.set(index,region);
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 }
+                                 else {
+                                        System.out.println("Region not found!");
+                                    }
                                 break;
                             case 4://remove region
                                 System.out.println("Enter name of the region:");
@@ -738,6 +972,52 @@ public class Main {
         }
     }
     /**
+     * There are all edit menus here
+     */
+    public static void editRegion(){
+        System.out.println("_____________________________________________________");
+        System.out.println("Enter the number of the object that you want edit");
+        System.out.println("1- Name of the region");
+        System.out.println("2- SubRegions");
+    }
+    public static void editLeader(){
+        System.out.println("_____________________________________________________");
+        System.out.println("Enter the number of the object that you want edit");
+        System.out.println("1- First name");
+        System.out.println("2- Last name");
+        System.out.println("3- Credit ID");
+        System.out.println("4- Date of birth");
+        System.out.println("5- Date of employment");
+        System.out.println("6- Is she/he married?");
+        System.out.println("7- Region of leaders");
+        System.out.println("8- Shifts' days");
+    }
+    public static void editTour(){
+        System.out.println("_____________________________________________________");
+        System.out.println("Enter the number of the object that you want edit");
+        System.out.println("1- Name");
+        System.out.println("2- Identifier");
+        System.out.println("3- Date of start");
+        System.out.println("4- Is it foreign tour?");
+        System.out.println("5- Duration");
+        System.out.println("6- Region");
+        System.out.println("7- price");
+        System.out.println("8- Min and max of capacity");
+        System.out.println("9- Begin and destination");
+        System.out.println("10- How the tour will travel?");
+        System.out.println("11- Order the subRegions");
+    }
+    public static void editKindOfTour(){
+        System.out.println("_____________________________________________________");
+        System.out.println("Enter the number of the object that you want edit");
+        System.out.println("1- Name");
+        System.out.println("2- Is it foreign tour?");
+        System.out.println("3- Duration");
+        System.out.println("4- Region");
+        System.out.println("5- price");
+        System.out.println("6- Min and max of capacity");
+    }
+    /**
      * There are all search methods here
      */
     public static void searchLeaderByFirstName(String firstName,List<Leader> leaderList){
@@ -868,10 +1148,10 @@ public class Main {
                 }
             }
     }
-    public static void searchKindsOfTourByDuration(int duration,List<Tour> kindsOfTours){
-        for(int i = 0; i < kindsOfTours.size(); i++) {
-            if(duration==kindsOfTours.get(i).getDuration()){
-                System.out.println("* " + kindsOfTours.get(i).getName());
+    public static void searchTourByCapacity(int capacity,List<Tour> tourList){
+        for(int i = 0; i < tourList.size(); i++) {
+            if(capacity>=tourList.get(i).getMinCapacity() && capacity<=tourList.get(i).getMaxCapacity()){
+                System.out.println("* "+tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
             }
         }
     }
@@ -916,6 +1196,22 @@ public class Main {
                     }
                 }
                 break;
+        }
+    }
+    public static void searchTourByRegion(String regionName,List<Tour> tourList){
+        for(int i=0;i<tourList.size();i++){
+            if(regionName.equals(tourList.get(i).getRegion().getName())){
+                System.out.println("    *"+tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
+            }
+        }
+    }
+    public static void searchTourBySubRegion(String subRegionName,List<Tour> tourList){
+        for(int i=0;i<tourList.size();i++) {
+            for (int j = 0; j < tourList.get(i).getRegion().getSubRegion().size(); j++) {
+                if (subRegionName.equals(tourList.get(i).getRegion().getSubRegion().get(j))) {
+                    System.out.println("    *" + tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
+                }
+            }
         }
     }
     public static void searchKindOfTourByPrice(int choice,List<Tour> kindsOfTours){
@@ -968,24 +1264,10 @@ public class Main {
             }
         }
     }
-    public static void searchTourByCapacity(int capacity,List<Tour> tourList){
-        for(int i = 0; i < tourList.size(); i++) {
-            if(capacity>=tourList.get(i).getMinCapacity() && capacity<=tourList.get(i).getMaxCapacity()){
-                System.out.println("* "+tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
-            }
-        }
-    }
     public static void searchKindOfTourByRegion(String regionName,List<Tour> kindsOfTours){
         for(int i=0;i<kindsOfTours.size();i++){
             if(regionName.equals(kindsOfTours.get(i).getRegion().getName())){
                 System.out.println("    *"+kindsOfTours.get(i).getName());
-            }
-        }
-    }
-    public static void searchTourByRegion(String regionName,List<Tour> tourList){
-        for(int i=0;i<tourList.size();i++){
-            if(regionName.equals(tourList.get(i).getRegion().getName())){
-                System.out.println("    *"+tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
             }
         }
     }
@@ -998,12 +1280,10 @@ public class Main {
             }
         }
     }
-    public static void searchTourBySubRegion(String subRegionName,List<Tour> tourList){
-        for(int i=0;i<tourList.size();i++) {
-            for (int j = 0; j < tourList.get(i).getRegion().getSubRegion().size(); j++) {
-                if (subRegionName.equals(tourList.get(i).getRegion().getSubRegion().get(j))) {
-                    System.out.println("    *" + tourList.get(i).getName()+ " " + tourList.get(i).getIdentifier());
-                }
+    public static void searchKindsOfTourByDuration(int duration,List<Tour> kindsOfTours){
+        for(int i = 0; i < kindsOfTours.size(); i++) {
+            if(duration==kindsOfTours.get(i).getDuration()){
+                System.out.println("* " + kindsOfTours.get(i).getName());
             }
         }
     }
@@ -1035,6 +1315,14 @@ public class Main {
     public static int mainRegionSearch(String regionName,List<Region> regionList){
         for(int i = 0; i < regionList.size(); i++) {
             if(regionName.equals(regionList.get(i).getName())){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static int mainDateSearch(Date date,List<Date> fullDay){
+        for(int i=0;i<fullDay.size();i++){
+            if(compareDate(date,fullDay.get(i))==0){
                 return i;
             }
         }

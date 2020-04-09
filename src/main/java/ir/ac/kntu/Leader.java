@@ -33,8 +33,37 @@ public class Leader {
         return regionOfLeader;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCreditId(long creditId) {
+        this.creditId = creditId;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setDateOfEmployment(Date dateOfEmployment) {
+        this.dateOfEmployment = dateOfEmployment;
+    }
+
+    public void setMarried(boolean married) {
+        this.married = married;
+    }
+
+    public void setRegionOfLeader(List<String> regionOfLeader) {
+        this.regionOfLeader = regionOfLeader;
+    }
+
     public List<Date> getFullDay() {
         return fullDay;
+
     }
 
     public Leader(String firstName, String lastName, long creditId, Date dateOfBirth, Date dateOfEmployment, boolean married, List<String> regionOfLeader){
