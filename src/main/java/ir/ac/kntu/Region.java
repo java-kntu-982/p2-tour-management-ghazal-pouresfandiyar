@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Region {
     private String name;
-    private List<String> subRegion = new ArrayList<>();
+    private List<String> subRegion;
 
     public String getName() {
         return name;
@@ -18,8 +18,6 @@ public class Region {
 
     public Region(String name, List<String> subRegion) {
         this.name = name;
-        for (int i = 0; i < subRegion.size(); i++) {
-            this.subRegion.add(subRegion.get(i));
-        }
+        this.subRegion=subRegion;
     }
 }

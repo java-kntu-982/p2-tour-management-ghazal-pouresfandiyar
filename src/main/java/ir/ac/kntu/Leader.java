@@ -9,7 +9,7 @@ public class Leader {
     private Date dateOfBirth;
     private Date dateOfEmployment;
     private boolean married;
-    private List<String> regionOfLeader=new ArrayList<>();
+    private List<String> regionOfLeader;
     private int age;
     public List<Date> fullDay=new ArrayList<>();
 
@@ -75,6 +75,5 @@ public class Leader {
         this.married=married;
         this.regionOfLeader=regionOfLeader;
     }
-    public Leader(){}
 }
 
