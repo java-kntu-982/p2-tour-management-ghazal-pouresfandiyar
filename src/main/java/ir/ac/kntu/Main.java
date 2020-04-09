@@ -105,8 +105,7 @@ public class Main {
                                         default:
                                             break;
                                     }
-                                }
-                                else {
+                                } else {
                                     System.out.println("Not found!");
                                 }
                                 break;
@@ -183,8 +182,7 @@ public class Main {
                                             if(tourList.get(index).isForeign()==false){
                                                 begin=scan.next();
                                                 destination=begin;
-                                            }
-                                            else {
+                                            } else {
                                                 begin = scan.next();
                                                 destination = scan.next();
                                             }
@@ -219,8 +217,7 @@ public class Main {
                                         default:
                                             break;
                                     }
-                                }
-                                            else {
+                                } else {
                                     System.out.println("Not found!");
                                 }
                                 break;
@@ -306,15 +303,16 @@ public class Main {
                                             break;
                                     }
                                 }
-                                    break;
+                                break;
                             case 10:// Back to Menu
-                                 exit6 = true;
-                                 break;
+                                exit6 = true;
+                                break;
                             default:
                                 System.out.println("Invalid input!");
-                            }
+                                break;
                         }
-                        break;
+                    }
+                    break;
                 case 2://handle leaders
                     while(exit1==false) {
                         leaderMenu();
@@ -345,75 +343,75 @@ public class Main {
                                 if (index >= 0) {
                                     editLeader();
                                     int choice=scan.nextInt();
-                                        switch (choice) {
-                                            case 1:
-                                                System.out.println("Enter new first name:");
-                                                firstName = scan.next();
-                                                leaderList.get(index).setFirstName(firstName);
-                                                break;
-                                            case 2:
-                                                System.out.println("Enter new last name:");
-                                                lastName = scan.next();
-                                                leaderList.get(index).setLastName(lastName);
-                                                break;
-                                            case 3:
-                                                System.out.println("Enter Credit ID:");
-                                                long creditId = scan.nextLong();
-                                                leaderList.get(index).setCreditId(creditId);
-                                                break;
-                                            case 4:
-                                                System.out.println("Enter date of birth:(dat,month,year)");
-                                                int day = scan.nextInt();
-                                                int month = scan.nextInt();
-                                                int year = scan.nextInt();
-                                                Date newDate = new Date(year, month, year);
-                                                leaderList.get(index).setDateOfBirth(newDate);
-                                                leaderList.get(index).setAge(currentYear - year);
-                                                break;
-                                            case 5:
-                                                System.out.println("Enter date of employment:(dat,month,year)");
-                                                day = scan.nextInt();
-                                                month = scan.nextInt();
-                                                year = scan.nextInt();
-                                                newDate = new Date(year, month, year);
-                                                leaderList.get(index).setDateOfEmployment(newDate);
-                                                break;
-                                            case 6:
-                                                System.out.println("Is she/he married?");
-                                                leaderList.get(index).setMarried(scan.nextBoolean());
-                                                break;
-                                            case 7:
-                                                System.out.println("How many regions does he/she know?");
-                                                int num = scan.nextInt();
-                                                System.out.println("Enter new name of regions:");
-                                                List<String> newRegionOfLeader = new ArrayList<>();
-                                                for (int i = 0; i < num; i++) {
-                                                    newRegionOfLeader.add(scan.next());
-                                                }
-                                                leaderList.get(index).setRegionOfLeader(newRegionOfLeader);
-                                                break;
-                                            case 8:
-                                                System.out.println("Enter previous date of shift:");
-                                                day = scan.nextInt();
-                                                month = scan.nextInt();
-                                                year = scan.nextInt();
-                                                Date previoysDate = new Date(year, month, day);
-                                                int index1 = mainDateSearch(previoysDate, leaderList.get(index).getFullDay());
-                                                if (index1 >= 0) {
-                                                    System.out.println("Enter new date of shift:");
-                                                    int newDay = scan.nextInt();
-                                                    int newMonth = scan.nextInt();
-                                                    int newYear = scan.nextInt();
-                                                    newDate = new Date(newYear, newMonth, newDay);
-                                                    leaderList.get(index).getFullDay().set(index1, newDate);
-                                                } else {
-                                                    System.out.println("The date does not found!");
-                                                }
-                                                break;
-                                            default:
-                                                System.out.println("Invalid Input!");
-                                                break;
-                                        }
+                                    switch (choice) {
+                                        case 1:
+                                            System.out.println("Enter new first name:");
+                                            firstName = scan.next();
+                                            leaderList.get(index).setFirstName(firstName);
+                                            break;
+                                        case 2:
+                                            System.out.println("Enter new last name:");
+                                            lastName = scan.next();
+                                            leaderList.get(index).setLastName(lastName);
+                                            break;
+                                        case 3:
+                                            System.out.println("Enter Credit ID:");
+                                            long creditId = scan.nextLong();
+                                            leaderList.get(index).setCreditId(creditId);
+                                            break;
+                                        case 4:
+                                            System.out.println("Enter date of birth:(dat,month,year)");
+                                            int day = scan.nextInt();
+                                            int month = scan.nextInt();
+                                            int year = scan.nextInt();
+                                            Date newDate = new Date(year, month, year);
+                                            leaderList.get(index).setDateOfBirth(newDate);
+                                            leaderList.get(index).setAge(currentYear - year);
+                                            break;
+                                        case 5:
+                                            System.out.println("Enter date of employment:(dat,month,year)");
+                                            day = scan.nextInt();
+                                            month = scan.nextInt();
+                                            year = scan.nextInt();
+                                            newDate = new Date(year, month, year);
+                                            leaderList.get(index).setDateOfEmployment(newDate);
+                                            break;
+                                        case 6:
+                                            System.out.println("Is she/he married?");
+                                            leaderList.get(index).setMarried(scan.nextBoolean());
+                                            break;
+                                        case 7:
+                                            System.out.println("How many regions does he/she know?");
+                                            int num = scan.nextInt();
+                                            System.out.println("Enter new name of regions:");
+                                            List<String> newRegionOfLeader = new ArrayList<>();
+                                            for (int i = 0; i < num; i++) {
+                                                newRegionOfLeader.add(scan.next());
+                                            }
+                                            leaderList.get(index).setRegionOfLeader(newRegionOfLeader);
+                                            break;
+                                        case 8:
+                                            System.out.println("Enter previous date of shift:");
+                                            day = scan.nextInt();
+                                            month = scan.nextInt();
+                                            year = scan.nextInt();
+                                            Date previoysDate = new Date(year, month, day);
+                                            int index1 = mainDateSearch(previoysDate, leaderList.get(index).getFullDay());
+                                            if (index1 >= 0) {
+                                                System.out.println("Enter new date of shift:");
+                                                int newDay = scan.nextInt();
+                                                int newMonth = scan.nextInt();
+                                                int newYear = scan.nextInt();
+                                                newDate = new Date(newYear, newMonth, newDay);
+                                                leaderList.get(index).getFullDay().set(index1, newDate);
+                                            } else {
+                                                System.out.println("The date does not found!");
+                                            }
+                                            break;
+                                        default:
+                                            System.out.println("Invalid Input!");
+                                            break;
+                                    }
                                 } else {
                                     System.out.println("Not found!");
                                 }
@@ -517,12 +515,10 @@ public class Main {
                                 if (index >= 0) {
                                     if(tourList.get(index).isForeign()==true) {
                                         MapUtil.showMap(tourList.get(index).getBegin(), tourList.get(index).getDestination());
-                                    }
-                                    else{
+                                    } else{
                                         System.out.println("The begining and distination of an inner tour are the same and you can't show them with this option!");
                                     }
-                                }
-                                else {
+                                } else {
                                     System.out.println("Tour not found!");
                                 }
                                 break;
@@ -532,8 +528,7 @@ public class Main {
                                         for(int i=0;i<tourList.get(index).getRegion().getSubRegion().size();i++){
                                             MapUtil.showMap(tourList.get(index).getRegion().getSubRegion().get(i));
                                         }
-                                    }
-                                    else{
+                                    } else{
                                         System.out.println("This option is just for foreign tours!");
                                     }
                                 }
@@ -543,7 +538,7 @@ public class Main {
                                 break;
                         }
                     }
-                        break;
+                    break;
                 case 4: //handle regions
                     while (exit3==false) {
                         regionMenu();
@@ -580,10 +575,9 @@ public class Main {
                                         default:
                                             break;
                                     }
+                                } else {
+                                    System.out.println("Region not found!");
                                 }
-                                 else {
-                                        System.out.println("Region not found!");
-                                    }
                                 break;
                             case 4://remove region
                                 System.out.println("Enter name of the region:");
@@ -605,6 +599,7 @@ public class Main {
                     return;
                 default:
                     System.out.println("Invalid input!");
+                    break;
             }
         }
     }
@@ -839,8 +834,7 @@ public class Main {
                 System.out.println("The leader can't lead this tour in this region! He/She doesn't know the region!");
                 return null;
             }
-        }
-        else if(index<0){
+        } else if(index<0){
             System.out.println("The leader not found!");
             return null;
         }
@@ -854,8 +848,7 @@ public class Main {
         if(isForeign==false){
             begin=scan.next();
             destination=begin;
-        }
-        else {
+        } else {
             begin = scan.next();
             destination = scan.next();
         }
@@ -873,6 +866,7 @@ public class Main {
                 break;
             default:
                 System.out.println("Invalid input!");
+                break;
         }
         Map<Integer, String> subRegion=new HashMap<>();
         System.out.println("Now enter the subRegions in order to set the schedule of tours:");
@@ -954,7 +948,7 @@ public class Main {
     public static void showLeaders(List<Leader> leaderList){
         boolean bool=false;
         for(int i = 0; i < leaderList.size(); i++) {
-        System.out.println((i+1)+"- "+leaderList.get(i).getFirstName()+" "+leaderList.get(i).getLastName());
+            System.out.println((i+1)+"- "+leaderList.get(i).getFirstName()+" "+leaderList.get(i).getLastName());
             bool=true;
         }
         if(bool==false){
@@ -1084,12 +1078,11 @@ public class Main {
         int index = mainLeaderSearch(firstName, lastName, leaderList);
         if (index >= 0) {
             for (int i = 0; i < tourList.size(); i++) {
-                    if ((tourList.get(i).getTourLeader().getFirstName()).equals(firstName) &&(tourList.get(i).getTourLeader().getLastName()).equals(lastName)) {
-                        System.out.println("* "+tourList.get(i).getName() + " " + tourList.get(i).getIdentifier());
-                    }
+                if ((tourList.get(i).getTourLeader().getFirstName()).equals(firstName) &&(tourList.get(i).getTourLeader().getLastName()).equals(lastName)) {
+                    System.out.println("* "+tourList.get(i).getName() + " " + tourList.get(i).getIdentifier());
                 }
             }
-        else {
+        } else {
             System.out.println("Leader does not found!");
         }
     }
@@ -1144,9 +1137,9 @@ public class Main {
     public static void searchTourByDuration(int duration,List<Tour> tourList){
         for(int i = 0; i < tourList.size(); i++) {
             if(duration==tourList.get(i).getDuration()){
-                    System.out.println("* " + tourList.get(i).getName() + " " + tourList.get(i).getIdentifier());
-                }
+                System.out.println("* " + tourList.get(i).getName() + " " + tourList.get(i).getIdentifier());
             }
+        }
     }
     public static void searchTourByCapacity(int capacity,List<Tour> tourList){
         for(int i = 0; i < tourList.size(); i++) {
@@ -1336,13 +1329,11 @@ public class Main {
     public static int compareDate(Date date1,Date date2){
         if(date1.getYear()>date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()>date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()>date2.getDay())){
             return 1;
-        }
-        else if(date1.getYear()<date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()<date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()<date2.getDay())){
+        } else if(date1.getYear()<date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()<date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()<date2.getDay())){
             return -1;
-        }
-        else if(date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()==date2.getDay() ) {
+        } else if(date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()==date2.getDay() ) {
             return 0;
         }
-       return -100;
+        return -100;
     }
 }

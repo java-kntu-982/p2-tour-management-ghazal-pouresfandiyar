@@ -97,8 +97,7 @@ public class Date {
             nextDate.day++;
         } else if (curDate.day == 30 && curDate.month < 7) {
             nextDate.day++;
-        }
-        else {
+        } else {
             nextDate.day = 1;
             nextDate.month++;
         }
