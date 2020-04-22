@@ -17,7 +17,7 @@ public class Tour {
     private String begin;
     private String destination;
     private HowToTravel howToTravel;
-    Map< Integer,String> orderedSubRegions= new HashMap<>();//String is the name of the place and Integer is number of day
+    private Map< Integer,String> orderedSubRegions= new HashMap<>();//String is the name of the place and Integer is number of day
     private  Leader tourLeader;
 
     public void setName(String name) {

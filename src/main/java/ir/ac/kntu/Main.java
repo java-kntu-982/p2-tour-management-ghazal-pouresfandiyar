@@ -26,6 +26,7 @@ public class Main {
             int choice1 = scan.nextInt();
             switch (choice1) {
                 case 1://handle tours
+                    exit6=false;
                     while (exit6 == false) {
                         tourMenu();
                         int choice0 = scan.nextInt();
@@ -222,6 +223,7 @@ public class Main {
                                 }
                                 break;
                             case 8:// Search a special tour
+                                exit5=false;
                                 while (exit5 == false) {
                                     searchTourMenu();
                                     int choice6 = scan.nextInt();
@@ -269,6 +271,7 @@ public class Main {
                                 }
                                 break;
                             case 9://search kinds of tour
+                                exit7=false;
                                 while (exit7 == false) {
                                     searchKindOfTourMenu();
                                     int choice7 = scan.nextInt();
@@ -314,6 +317,7 @@ public class Main {
                     }
                     break;
                 case 2://handle leaders
+                    exit1=false;
                     while(exit1==false) {
                         leaderMenu();
                         int choice2 = scan.nextInt();
@@ -417,6 +421,7 @@ public class Main {
                                 }
                                 break;
                             case 5://search leader and print result
+                                exit4=false;
                                 while(exit4==false) {
                                     searchLeaderMenu();
                                     int choice3 = scan.nextInt();
@@ -460,6 +465,7 @@ public class Main {
                     }
                     break;
                 case 3://use map
+                    exit2=false;
                     while (exit2 == false) {
                         mapMenu();
                         int choice5 = scan.nextInt();
@@ -540,6 +546,7 @@ public class Main {
                     }
                     break;
                 case 4: //handle regions
+                    exit3=false;
                     while (exit3==false) {
                         regionMenu();
                         int choice6 = scan.nextInt();
