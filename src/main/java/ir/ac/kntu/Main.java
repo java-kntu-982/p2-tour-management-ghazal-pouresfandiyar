@@ -7,29 +7,30 @@ import java.util.List;
 import java.util.Scanner;
 /**
  * @author Ghazal pouresfandiyar
- * @version 9.0
+ * @version 11.0
  * @since 1.0
  */
 public class Main {
     public static void main(String[] args) {
         int count=0;
-        User user=new User("admin");
+        User loggedInUser=new User("admin");
         Scanner scan=new Scanner(System.in);
-        boolean ok , ook=false;
-        ok=false;
-        while (ok==false) {
+        boolean first , second=false;
+        first=false;
+        while (first==false) {
             System.out.println("________________________LOGIN________________________");
             System.out.println("Enter the username:");
             String userName = scan.next();
             if (userName.equals("admin")) {
-                ook=false;
-                while (ook == false) {
+                second=false;
+                while (second == false) {
                     System.out.println("Enter the password:");
                     String password = scan.next();
-                    if (password.equals(user.getPassword())) {
-                        user.setAccess(Access.ADMIN);
-                        ok=true;
-                        ook=true;
+                    if (password.equals(loggedInUser.getPassword())) {
+                        loggedInUser.setAccess(Access.ADMIN);
+                        first=true;
+                        second=true;
+                        System.out.println("_____________________________________________________");
                     } else {
                         System.out.println("Invalid password!Try again!");
                     }
@@ -48,25 +49,26 @@ public class Main {
         List <InnerTour> innerTourList  = new ArrayList<>();
         System.out.println("Enter the current year:");
         int currentYear=scan.nextInt();
-        boolean exit0 = false ,exit1 = false ,exit2 = false ,exit3 = false,exit4 = false ,exit5 = false ,exit6 = false ,exit7 = false,exit8=false,exit9=false;
+        boolean exit0 ,exit1 ,exit2 ,exit3 ,exit4  ,exit5  ,exit6  ,exit7 , exit8 ;
         while(true) {
-            boolean bool1, bool2 = false;
-            bool1 = false;
+            boolean third, fourth = false;
+            third = false;
             if (count != 0) {
-                while (bool1 == false) {
+                while (third == false) {
                     System.out.println("________________________LOGIN________________________");
                     System.out.println("Enter the username:");
                     String userName = scan.next();
                     int index = User.mainUserSearch(userName, userList);
                     if (index >= 0) {
-                        bool2 = false;
-                        while (bool2 == false) {
+                        fourth = false;
+                        while (fourth == false) {
                             System.out.println("Enter the password:");
                             String password = scan.next();
                             if (userList.get(index).getPassword().equals(password)) {
-                                user=new User(userName,password,userList.get(index).getAccess());
-                                bool1 = true;
-                                bool2 = true;
+                                loggedInUser=new User(userName,password,userList.get(index).getAccess());
+                                third = true;
+                                fourth = true;
+                                System.out.println("_____________________________________________________");
                             } else {
                                 System.out.println("Invalid password!Try again!");
                             }
@@ -77,14 +79,14 @@ public class Main {
                 }
             }
             count = 1;
-            exit9=false;
-            while (exit9 == false) {
+            exit0=false;
+            while (exit0 == false) {
                 menu();
-                int choice1 = scan.nextInt();
-                switch (choice1) {
+                int choice = scan.nextInt();
+                switch (choice) {
                     case 1://handle tours
-                        exit6 = false;
-                        while (exit6 == false) {
+                        exit1 = false;
+                        while (exit1 == false) {
                             Tour.tourMenu();
                             int choice0 = scan.nextInt();
                             switch (choice0) {
@@ -95,21 +97,21 @@ public class Main {
                                     Tour.showToursInformation(tourList);
                                     break;
                                 case 3://Add new kind of tour
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         kindsOfTours.add(Tour.scanKindsOfTour(regionList));
                                     } else {
                                         System.out.println("You can't do it,because you are not admin!");
                                     }
                                     break;
                                 case 4://Add new tour
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         tourList.add(Tour.scanTour(regionList, leaderList,foreignTourList,innerTourList));
                                     } else {
                                         System.out.println("You can't do it,because you are not admin!");
                                     }
                                     break;
                                 case 5://Remove tour
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter name of the tour and it's identifier:(it should be a space between them)");
                                         String tourName = scan.next();
                                         int identifier = scan.nextInt();
@@ -124,14 +126,14 @@ public class Main {
                                     }
                                     break;
                                 case 6://Edit kinds of tours
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter tour's name:");
                                         String tourName = scan.next();
                                         int index = Tour.mainKindsOfToursSearch(tourName, tourList);
                                         if (index >= 0) {
                                             Tour.editKindOfTour();
-                                            int choice = scan.nextInt();
-                                            switch (choice) {
+                                            int choice1 = scan.nextInt();
+                                            switch (choice1) {
                                                 case 1:
                                                     System.out.println("Enter new name:");
                                                     String name = scan.next();
@@ -145,7 +147,7 @@ public class Main {
                                                 case 3:
                                                     System.out.println("Enter the name of region:");
                                                     String regionName = scan.next();
-                                                    Boolean bool = false;
+                                                    boolean bool = false;
                                                     Region region = null;
                                                     for (int i = 0; i < regionList.size(); i++) {
                                                         if (regionName.equals(regionList.get(i).getName())) {
@@ -180,15 +182,15 @@ public class Main {
                                     }
                                     break;
                                 case 7://Edit tour's information
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter tour's name and identifier (with a space between them):");
                                         String tourName = scan.next();
                                         int identifier = scan.nextInt();
                                         int index = Tour.mainTourSearch(tourName, identifier, tourList);
                                         if (index >= 0) {
                                             Tour.editTour();
-                                            int choice = scan.nextInt();
-                                            switch (choice) {
+                                            int choice2 = scan.nextInt();
+                                            switch (choice2) {
                                                 case 1:
                                                     System.out.println("Enter new name:");
                                                     String name = scan.next();
@@ -200,11 +202,11 @@ public class Main {
                                                     tourList.get(index).setIdentifier(identifier);
                                                     break;
                                                 case 3:
-                                                    System.out.println("Enter date of start:(dat,month,year)");
+                                                    System.out.println("Enter date of start:(day,month,year)");
                                                     int day = scan.nextInt();
                                                     int month = scan.nextInt();
                                                     int year = scan.nextInt();
-                                                    Date newDate = new Date(year, month, year);
+                                                    Date newDate = new Date(year, month, day);
                                                     tourList.get(index).setDateOFStart(newDate);
                                                     break;
                                                 case 4:
@@ -234,7 +236,6 @@ public class Main {
                                                         regionList.add(region);
                                                     }
                                                     tourList.get(index).setRegion(region);
-
                                                 case 6:
                                                     System.out.println("Enter price:");
                                                     tourList.get(index).setPrice(scan.nextLong());
@@ -261,9 +262,9 @@ public class Main {
                                                     System.out.println("How the passengers will travel?");
                                                     System.out.println("1- By air");
                                                     System.out.println("2- On ground");
-                                                    int choicee = scan.nextInt();
+                                                    int choice3 = scan.nextInt();
                                                     HowToTravel howToTravel = HowToTravel.NONE;
-                                                    switch (choicee) {
+                                                    switch (choice3) {
                                                         case 1:
                                                             tourList.get(index).setHowToTravel(HowToTravel.BY_AIR);
                                                             break;
@@ -293,11 +294,11 @@ public class Main {
                                     }
                                     break;
                                 case 8:// Search a special tour
-                                    exit5 = false;
-                                    while (exit5 == false) {
+                                    exit2 = false;
+                                    while (exit2 == false) {
                                         Tour.searchTourMenu();
-                                        int choice6 = scan.nextInt();
-                                        switch (choice6) {
+                                        int choice4 = scan.nextInt();
+                                        switch (choice4) {
                                             case 1://search by leaders
                                                 System.out.println("Enter the firs name and last name:");
                                                 String firstName = scan.next();
@@ -331,18 +332,18 @@ public class Main {
                                                 break;
                                             case 7://search by price
                                                 Tour.priceMenu();
-                                                int choice4 = scan.nextInt();
-                                                Tour.searchTourByPrice(choice4, tourList);
+                                                int choice6 = scan.nextInt();
+                                                Tour.searchTourByPrice(choice6, tourList);
                                                 break;
                                             case 8://back to menu
-                                                exit5 = true;
+                                                exit2 = true;
                                                 break;
                                         }
                                     }
                                     break;
                                 case 9://search kinds of tour
-                                    exit7 = false;
-                                    while (exit7 == false) {
+                                    exit3 = false;
+                                    while (exit3 == false) {
                                         Tour.searchKindOfTourMenu();
                                         int choice7 = scan.nextInt();
                                         switch (choice7) {
@@ -368,17 +369,17 @@ public class Main {
                                                 break;
                                             case 5://search by price
                                                 Tour.priceMenu();
-                                                int choice4 = scan.nextInt();
-                                                Tour.searchKindOfTourByPrice(choice4, kindsOfTours);
+                                                int choice8 = scan.nextInt();
+                                                Tour.searchKindOfTourByPrice(choice8, kindsOfTours);
                                                 break;
                                             case 6://back to menu
-                                                exit7 = true;
+                                                exit3 = true;
                                                 break;
                                         }
                                     }
                                     break;
                                 case 10:// Back to Menu
-                                    exit6 = true;
+                                    exit1 = true;
                                     break;
                                 default:
                                     System.out.println("Invalid input!");
@@ -387,23 +388,23 @@ public class Main {
                         }
                         break;
                     case 2://handle leaders
-                        exit1 = false;
-                        while (exit1 == false) {
+                        exit4 = false;
+                        while (exit4 == false) {
                             Leader.leaderMenu();
-                            int choice2 = scan.nextInt();
-                            switch (choice2) {
+                            int choice9 = scan.nextInt();
+                            switch (choice9) {
                                 case 1://show list of leaders
                                     Leader.showLeaders(leaderList);
                                     break;
                                 case 2://add new leader
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         leaderList.add(Leader.scanLeader(currentYear));
                                     } else {
                                         System.out.println("You can't do it,because you are not admin!");
                                     }
                                     break;
                                 case 3://remove leader
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter first name and last name:");
                                         String firstName = scan.next();
                                         String lastName = scan.next();
@@ -418,15 +419,15 @@ public class Main {
                                     }
                                     break;
                                 case 4://edit leader
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter first name and last name:");
                                         String firstName = scan.next();
                                         String lastName = scan.next();
                                         int index = Leader.mainLeaderSearch(firstName, lastName, leaderList);
                                         if (index >= 0) {
                                             Leader.editLeader();
-                                            int choice = scan.nextInt();
-                                            switch (choice) {
+                                            int choice10 = scan.nextInt();
+                                            switch (choice10) {
                                                 case 1:
                                                     System.out.println("Enter new first name:");
                                                     firstName = scan.next();
@@ -503,11 +504,11 @@ public class Main {
                                     }
                                     break;
                                 case 5://search leader and print result
-                                    exit4 = false;
-                                    while (exit4 == false) {
+                                    exit5 = false;
+                                    while (exit5 == false) {
                                         Leader.searchLeaderMenu();
-                                        int choice3 = scan.nextInt();
-                                        switch (choice3) {
+                                        int choice10 = scan.nextInt();
+                                        switch (choice10) {
                                             case 1://search by first name
                                                 System.out.println("Enter the first name:");
                                                 String firstName = scan.next();
@@ -531,35 +532,35 @@ public class Main {
                                                 break;
                                             case 4://search by age
                                                 Leader.ageMenu();
-                                                int choice4 = scan.nextInt();
-                                                Leader.searchLeaderByAge(choice4, leaderList);
+                                                int choice12 = scan.nextInt();
+                                                Leader.searchLeaderByAge(choice12, leaderList);
                                                 break;
                                             case 5://back to menu
-                                                exit4 = true;
+                                                exit5 = true;
                                                 break;
                                         }
                                     }
                                     break;
                                 case 6://back to menu
-                                    exit1 = true;
+                                    exit4 = true;
                                     break;
                             }
                         }
                         break;
                     case 3://use map
-                        exit2 = false;
-                        while (exit2 == false) {
+                        exit6 = false;
+                        while (exit6 == false) {
                             mapMenu();
-                            int choice5 = scan.nextInt();
+                            int choice13 = scan.nextInt();
                             int identifier, index = -1 ,index1=-1;
-                            if (choice5 != 1 && choice5 != 2) {
+                            if (choice13 != 1 && choice13 != 2) {
                                 System.out.println("Enter the name and identifier of the tour:");
                                 String tourName = scan.next();
                                 identifier = scan.nextInt();
                                 index = Tour.mainTourSearch(tourName, identifier, tourList);
                                 index1= ForeignTour.mainForeignTourSearch(tourName,identifier,foreignTourList);
                             }
-                            switch (choice5) {
+                            switch (choice13) {
                                 case 1://show the information of 2 place (not in a tour)
                                     System.out.println("Enter the name of first place:");
                                     String place1 = scan.next();
@@ -586,8 +587,8 @@ public class Main {
                                         System.out.println("What are you going to search for?");
                                         System.out.println("1- Beginning of the tour");
                                         System.out.println("2- Destination of the tour");
-                                        int choice = scan.nextInt();
-                                        switch (choice) {
+                                        int choice14 = scan.nextInt();
+                                        switch (choice14) {
                                             case 1:
                                                 MapUtil.showMap(tourList.get(index).getBegin());
                                                 break;
@@ -617,22 +618,22 @@ public class Main {
                                     }
                                     break;
                                 case 7://back to menu
-                                    exit2 = true;
+                                    exit6 = true;
                                     break;
                             }
                         }
                         break;
                     case 4: //handle regions
-                        exit3 = false;
-                        while (exit3 == false) {
+                        exit7 = false;
+                        while (exit7 == false) {
                             Region.regionMenu();
-                            int choice6 = scan.nextInt();
-                            switch (choice6) {
+                            int choice15 = scan.nextInt();
+                            switch (choice15) {
                                 case 1://show all regions
                                     Region.showRegions(regionList);
                                     break;
                                 case 2://add new region
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter region's name:");
                                         String regionName = scan.next();
                                         subRegionList = Region.scanSubRegion();
@@ -643,14 +644,14 @@ public class Main {
                                     }
                                     break;
                                 case 3://edit region
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter name of region:");
                                         String regionName = scan.next();
                                         int index = Region.mainRegionSearch(regionName, regionList);
                                         if (index >= 0) {
                                             Region.editRegion();
-                                            int choice = scan.nextInt();
-                                            switch (choice) {
+                                            int choice16 = scan.nextInt();
+                                            switch (choice16) {
                                                 case 1:
                                                     System.out.println("Enter region's new name:");
                                                     Region region = new Region(scan.next(), subRegionList);
@@ -672,7 +673,7 @@ public class Main {
                                     }
                                     break;
                                 case 4://remove region
-                                    if (user.getAccess().equals(Access.ADMIN)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN)) {
                                         System.out.println("Enter name of the region:");
                                         String regionName = scan.next();
                                         int index = Region.mainRegionSearch(regionName, regionList);
@@ -686,7 +687,7 @@ public class Main {
                                     }
                                     break;
                                 case 5://back to menu
-                                    exit3 = true;
+                                    exit7 = true;
                                     break;
                             }
                         }
@@ -695,31 +696,31 @@ public class Main {
                         exit8 = false;
                         while (exit8 == false) {
                             User.userMenu();
-                            int choice = scan.nextInt();
-                            switch (choice) {
+                            int choice17 = scan.nextInt();
+                            switch (choice17) {
                                 case 1://add new user
-                                    if (!user.getAccess().equals(Access.CUSTOMER)) {
-                                        User user1 = User.scanUser();
+                                    if (!loggedInUser.getAccess().equals(Access.CUSTOMER)) {
+                                        User user = User.scanUser();
                                         System.out.println("Select the access mode:");
                                         System.out.println("1- Employee");
                                         System.out.println("2- Customer");
                                         System.out.println("3- Leader");
-                                        int choicee = scan.nextInt();
-                                        switch (choicee) {
+                                        int choice18 = scan.nextInt();
+                                        switch (choice18) {
                                             case 1:
-                                                if (!user.getAccess().equals(Access.LEADER)) {
-                                                    user1 = Employee.scanEmployee(user1.getUserName(), user1.getPassword());
-                                                    user1.setAccess(Access.EMPLOYEE);
+                                                if (!loggedInUser.getAccess().equals(Access.LEADER)) {
+                                                    user = Employee.scanEmployee(user.getUserName(), user.getPassword());
+                                                    user.setAccess(Access.EMPLOYEE);
                                                 } else {
                                                     System.out.println("You are a leader and you can't add new employee!");
                                                 }
                                                 break;
                                             case 2:
-                                                user1.setAccess(Access.CUSTOMER);
+                                                user.setAccess(Access.CUSTOMER);
                                                 break;
                                             case 3:
-                                                if (!user.getAccess().equals(Access.LEADER)) {
-                                                    user1.setAccess(Access.LEADER);
+                                                if (!loggedInUser.getAccess().equals(Access.LEADER)) {
+                                                    user.setAccess(Access.LEADER);
                                                 } else {
                                                     System.out.println("You are a leader and you can't add new leader!");
                                                 }
@@ -728,13 +729,13 @@ public class Main {
                                                 System.out.println("Invalid input!");
                                                 break;
                                         }
-                                        userList.add(user1);
+                                        userList.add(user);
                                     } else {
                                         System.out.println("You are a customer and you can't add new user!");
                                     }
                                     break;
                                 case 2://edit user
-                                    if (user.getAccess().equals(Access.ADMIN) || user.getAccess().equals(Access.EMPLOYEE)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN) || loggedInUser.getAccess().equals(Access.EMPLOYEE)) {
                                         System.out.println("Enter the username of user");
                                         String userName = scan.next();
                                         int index = User.mainUserSearch(userName, userList);
@@ -744,8 +745,8 @@ public class Main {
                                             System.out.println("2- Edit password");
                                             System.out.println("3- Edit emial");
                                             System.out.println("4- Edit phone number");
-                                            choice = scan.nextInt();
-                                            switch (choice) {
+                                            int choice19 = scan.nextInt();
+                                            switch (choice19) {
                                                 case 1:
                                                     System.out.println("Enter new username");
                                                     userList.get(index).setUserName(scan.next());
@@ -779,7 +780,7 @@ public class Main {
                                     }
                                     break;
                                 case 3://remove user
-                                    if (user.getAccess().equals(Access.ADMIN) || user.getAccess().equals(Access.EMPLOYEE)) {
+                                    if (loggedInUser.getAccess().equals(Access.ADMIN) || loggedInUser.getAccess().equals(Access.EMPLOYEE)) {
                                         System.out.println("Enter the username of user");
                                         String userName = scan.next();
                                         int index = User.mainUserSearch(userName, userList);
@@ -801,7 +802,7 @@ public class Main {
                     case 6://edit your information
                         System.out.println("Enter your username:");
                         String userName = scan.next();
-                        if (userName.equals(user.getUserName())) {
+                        if (userName.equals(loggedInUser.getUserName())) {
                             int index = User.mainUserSearch(userName, userList);
                             if (index >= 0) {
                                 System.out.println("What are you going to do?");
@@ -809,8 +810,8 @@ public class Main {
                                 System.out.println("2- Edit password");
                                 System.out.println("3- Edit emial");
                                 System.out.println("4- Edit phone number");
-                                int choice = scan.nextInt();
-                                switch (choice) {
+                                int choice20 = scan.nextInt();
+                                switch (choice20) {
                                     case 1:
                                         System.out.println("Enter new username");
                                         userList.get(index).setUserName(scan.next());
@@ -839,7 +840,7 @@ public class Main {
                         }
                         break;
                     case 7://exit
-                        exit9 = true;
+                        exit0 = true;
                         break;
                     default:
                         System.out.println("Invalid input!");
