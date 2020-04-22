@@ -1,5 +1,7 @@
 package ir.ac.kntu;
 
+import java.util.List;
+
 /**
  * Date class has 3 private parameters(year,month,day)
  */
@@ -145,6 +147,36 @@ public class Date {
         return firstFraction <= b && secondFraction > b;
     }
 
-
+    /**
+     * @return 1 if date2 is sooner than date1
+     * @return -1 if date1 is sooner than date2
+     * @return 0 if they are the same
+     */
+    public static int compareDate(Date date1,Date date2){
+        if(date1.getYear()>date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()>date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()>date2.getDay())){
+            return 1;
+        } else if(date1.getYear()<date2.getYear() || (date1.getYear()==date2.getYear() && date1.getMonth()<date2.getMonth()) || (date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()<date2.getDay())){
+            return -1;
+        } else if(date1.getYear()==date2.getYear() && date1.getMonth()==date2.getMonth() && date1.getDay()==date2.getDay() ) {
+            return 0;
+        }
+        return -100;
+    }
+    public static void dateMenu() {
+        System.out.println("_____________________________________________________");
+        System.out.println("How do you want search?");
+        System.out.println("1- After a special date");
+        System.out.println("2- Before the special date");
+        System.out.println("3- Between two special dates");
+        System.out.println("4- Back to last menu");
+    }
+    public static int mainDateSearch(Date date, List<Date> fullDay){
+        for(int i=0;i<fullDay.size();i++){
+            if(Date.compareDate(date,fullDay.get(i))==0){
+                return i;
+            }
+        }
+        return -1;
+    }
 
 }
