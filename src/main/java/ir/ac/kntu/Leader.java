@@ -2,7 +2,7 @@ package ir.ac.kntu;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Leader {
+public class Leader extends User{
     private String firstName;
     private String lastName;
     private long creditId;
