@@ -64,6 +64,7 @@ public class Main {
                             System.out.println("Enter the password:");
                             String password = scan.next();
                             if (userList.get(index).getPassword().equals(password)) {
+                                user=new User(userName,password,userList.get(index).getAccess());
                                 bool1 = true;
                                 bool2 = true;
                             } else {
@@ -729,7 +730,7 @@ public class Main {
                                         }
                                         userList.add(user1);
                                     } else {
-                                        System.out.println("You are a leader and you can't add new user!");
+                                        System.out.println("You are a customer and you can't add new user!");
                                     }
                                     break;
                                 case 2://edit user
@@ -847,10 +848,6 @@ public class Main {
             }
         }
     }
-
-    /**
-     * There are menus here
-     */
     public static void menu(){
         System.out.println("_____________________________________________________");
         System.out.println("What are you going to do?");
