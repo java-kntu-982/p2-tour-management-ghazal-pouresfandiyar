@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class User {
     private String userName;
-    private String password="admin";
+    private String password;
     private String emial;
-    private String phone_number;
+    private String mobile;
     private Access access=Access.NONE;
 
     public void setAccess(Access access) {
@@ -39,6 +39,10 @@ public class User {
         this.password=password;
         this.access=access;
     }
+    public static boolean checkMobile(String mobile) {
+        String regex = "^[0][9][0-9]{9}$";
+        return mobile.matches(regex);
+    }
     public static void userMenu() {
         System.out.println("_____________________________________________________");
         System.out.println("What are you going to do?");
@@ -69,8 +73,8 @@ public class User {
         this.emial = emial;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setmobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public static int mainUserSearch(String userName, List<User> userList){

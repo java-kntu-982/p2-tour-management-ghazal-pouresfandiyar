@@ -1,4 +1,5 @@
 package ir.ac.kntu;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +9,12 @@ public class Tour {
     private String name;
     private int identifier;
     private Date dateOFStart;
-    private boolean isForeign;
     private int duration;
     private Date datOfEnd;
     private Region region;
     private long price;
     private int minCapacity;
     private int maxCapacity;
-    //if isforeign==false,then begin and destination is the same
     private String begin;
     private String destination;
     private HowToTravel howToTravel;
@@ -32,10 +31,6 @@ public class Tour {
 
     public void setDateOFStart(Date dateOFStart) {
         this.dateOFStart = dateOFStart;
-    }
-
-    public void setForeign(boolean foreign) {
-        isForeign = foreign;
     }
 
     public void setDuration(int duration) {
@@ -90,10 +85,6 @@ public class Tour {
         return identifier;
     }
 
-    public boolean isForeign() {
-        return isForeign;
-    }
-
     public String getBegin() {
         return begin;
     }
@@ -142,12 +133,11 @@ public class Tour {
         return tourLeader;
     }
 
-    public Tour(String name, int identifier, Date dateOFStart, Date datOfEnd, boolean isForeign, int duration, Region region, long price, int minCapacity, int maxCapacity, String begin, String destination, HowToTravel howToTravel, Map<Integer,String> orderedSubRegions, Leader tourLeader){
+    public Tour(String name, int identifier, Date dateOFStart, Date datOfEnd, int duration, Region region, long price, int minCapacity, int maxCapacity, String begin, String destination, HowToTravel howToTravel, Map<Integer,String> orderedSubRegions, Leader tourLeader){
         this.name=name;
         this.identifier=identifier;
         this.dateOFStart=dateOFStart;
         this.datOfEnd=datOfEnd;
-        this.isForeign=isForeign;
         this.duration=duration;
         this.region=region;
         this.price=price;
@@ -159,9 +149,23 @@ public class Tour {
         this.orderedSubRegions=orderedSubRegions;
         this.tourLeader=tourLeader;
     }
-    public Tour(String name,boolean isForeign,int duration,Region region,long price,int minCapacity,int maxCapacity){
+    public Tour(String name, int identifier, Date dateOFStart, Date datOfEnd, int duration, Region region, long price, int minCapacity, int maxCapacity, String begin, HowToTravel howToTravel, Map<Integer,String> orderedSubRegions, Leader tourLeader){
         this.name=name;
-        this.isForeign=isForeign;
+        this.identifier=identifier;
+        this.dateOFStart=dateOFStart;
+        this.datOfEnd=datOfEnd;
+        this.duration=duration;
+        this.region=region;
+        this.price=price;
+        this.minCapacity=minCapacity;
+        this.maxCapacity=maxCapacity;
+        this.begin=begin;
+        this.howToTravel=howToTravel;
+        this.orderedSubRegions=orderedSubRegions;
+        this.tourLeader=tourLeader;
+    }
+    public Tour(String name,int duration,Region region,long price,int minCapacity,int maxCapacity){
+        this.name=name;
         this.duration=duration;
         this.region=region;
         this.price=price;
@@ -188,24 +192,22 @@ public class Tour {
         System.out.println("1- Name");
         System.out.println("2- Identifier");
         System.out.println("3- Date of start");
-        System.out.println("4- Is it foreign tour?");
-        System.out.println("5- Duration");
-        System.out.println("6- Region");
-        System.out.println("7- price");
-        System.out.println("8- Min and max of capacity");
-        System.out.println("9- Begin and destination");
-        System.out.println("10- How the tour will travel?");
-        System.out.println("11- Order the subRegions");
+        System.out.println("4- Duration");
+        System.out.println("5- Region");
+        System.out.println("6- price");
+        System.out.println("7- Min and max of capacity");
+        System.out.println("8- Begin and destination");
+        System.out.println("9- How the tour will travel?");
+        System.out.println("10- Order the subRegions");
     }
     public static void editKindOfTour(){
         System.out.println("_____________________________________________________");
         System.out.println("Enter the number of the object that you want edit");
         System.out.println("1- Name");
-        System.out.println("2- Is it foreign tour?");
-        System.out.println("3- Duration");
-        System.out.println("4- Region");
-        System.out.println("5- price");
-        System.out.println("6- Min and max of capacity");
+        System.out.println("2- Duration");
+        System.out.println("3- Region");
+        System.out.println("4- price");
+        System.out.println("5- Min and max of capacity");
     }
     public static void priceMenu(){
         System.out.println("_____________________________________________________");
@@ -238,7 +240,7 @@ public class Tour {
         System.out.println("5- Based on price");
         System.out.println("6- Back to last menu");
     }
-    public static Tour scanTour(List<Region> regionList, List <Leader> leaderList){
+    public static Tour scanTour(List<Region> regionList, List <Leader> leaderList,List<ForeignTour> foreignTourList,List<InnerTour> innerTourList){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter name of the tour and it's identifier(it should be a space between the name and the identifier)");
         String name=scan.next();
@@ -348,7 +350,14 @@ public class Tour {
         for(Integer d=1;d<=duration;d++) {
             subRegion.put(d,scan.next());
         }
-        Tour tour=new Tour(name,identifier,dateOfStart,dateOfEnd,isForeign,duration,region,price,minCapacity,maxCapacity,begin,destination,howToTravel,subRegion,leaderList.get(index));
+        Tour tour = new Tour(name, identifier, dateOfStart, dateOfEnd, duration, region, price, minCapacity, maxCapacity, begin, destination, howToTravel, subRegion, leaderList.get(index));
+        if(isForeign==true){
+            ForeignTour foreignTour=new ForeignTour(name, identifier, dateOfStart, dateOfEnd, duration, region, price, minCapacity, maxCapacity, begin, destination, howToTravel, subRegion, leaderList.get(index));
+            foreignTourList.add(foreignTour);
+        }else{
+            InnerTour innerTour=new InnerTour(name, identifier, dateOfStart, dateOfEnd, duration, region, price, minCapacity, maxCapacity, begin, howToTravel, subRegion, leaderList.get(index));
+            innerTourList.add(innerTour);
+        }
         return tour;
     }
     public static Tour scanKindsOfTour(List<Region> regionList) {
@@ -379,7 +388,7 @@ public class Tour {
         System.out.println("Enter the min and max of tour's capacity in order:");
         int minCapacity=scan.nextInt();
         int maxCapacity=scan.nextInt();
-        Tour tour=new Tour(name,isForeign,duration,region,price,minCapacity,maxCapacity);
+        Tour tour=new Tour(name,duration,region,price,minCapacity,maxCapacity);
         return tour;
     }
     public static int mainTourSearch(String tourName,int identifier,List<Tour> tourList){
