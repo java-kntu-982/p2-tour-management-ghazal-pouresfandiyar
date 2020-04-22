@@ -68,6 +68,7 @@ public class Leader extends User{
     }
 
     public Leader(String firstName, String lastName, long creditId, Date dateOfBirth, Date dateOfEmployment, boolean married, List<String> regionOfLeader){
+        super();
         this.firstName=firstName;
         this.lastName=lastName;
         this.creditId=creditId;
