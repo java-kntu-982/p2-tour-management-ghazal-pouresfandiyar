@@ -763,7 +763,7 @@ public class Main {
                                                     System.out.println("Enter phone number");
                                                     String mobile = scan.next();
                                                     if (User.checkMobile(mobile) == true) {
-                                                        userList.get(index).setmobile(mobile);
+                                                        userList.get(index).setMobile(mobile);
                                                     } else {
                                                         System.out.println("Invalid phone number!");
                                                     }
@@ -817,7 +817,7 @@ public class Main {
                                         userList.get(index).setUserName(scan.next());
                                         break;
                                     case 2:
-                                        System.out.println("Enter new passwrord");
+                                        System.out.println("Enter new password");
                                         userList.get(index).setPassword(scan.next());
                                         break;
                                     case 3:
@@ -826,7 +826,7 @@ public class Main {
                                         break;
                                     case 4:
                                         System.out.println("Enter phone number");
-                                        userList.get(index).setmobile(scan.next());
+                                        userList.get(index).setMobile(scan.next());
                                         break;
                                     default:
                                         System.out.println("Invalid input!");

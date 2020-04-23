@@ -73,7 +73,7 @@ public class User {
         this.emial = emial;
     }
 
-    public void setmobile(String mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
